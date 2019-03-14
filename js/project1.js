@@ -13,23 +13,30 @@ used900Questions = [];
 used1000Questions = [];
 
 const currentQuestions = {
-
+    100 : {},
+    200 : {},
+    300 : {},
+    400 : {},
+    500 : {},
+    600 : {},
+    700 : {},
+    800 : {},
+    900 : {},
+    1000 : {},
 }
 
 //JService API Query
     let queryInterval = 1;
     let offsetInterval = 0;
-    let qValue = queryInterval * 100;
+    let qValue = queryInterval*100;
     let targetArray;
 
 function fillAllQs(){
-    for (var i = 0; i < 10 ; i++){
-        grabQuestions()
-        queryInterval++
-        console.log(queryInterval)
+    // let qValue = queryInterval*100;
+    for (var i = 1; i <= 10 ; i++){
+        qValue = i*100;
+        grabQuestions();
     }
-    queryInterval=1;
-    console.log(currentQuestions);
 }
 fillAllQs();
 
@@ -66,24 +73,30 @@ function grabQuestions(){
                                             targetArray = used1000Questions;
                                         } else {
                                             
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    //Determine the offset for the jservice search query.
+                                        }}}}}}}}}}
+
+//Determine the offset for the jservice search query.
     if(targetArray === 96){
         offsetInterval++
     };
+
     const queryURL = "http://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offsetInterval;
     $.get(queryURL, function(response){
+        qValue = queryInterval*100
+        console.log(qValue);
         for (var j = 1 ; j <= 6; j++){
-            randomQ = response[Math.floor(Math.random() * 100)];
+            let randomQ;
+            randomSelectQ();
+            function randomSelectQ(){
+                randomQ = response[Math.floor(Math.random() * 100)];
+                targetId = randomQ.id;
+                if(!randomQ || targetArray.includes(targetId)){
+                    // console.log("we got a ringer! - " + randomQ.id);
+                    randomSelectQ();
+                }
+                return randomQ
+            }
+            console.log(qValue)
             qObjName = "val"+qValue+"Num"+j;
             tempQ = {};
             tempQ[qObjName] = {
@@ -94,11 +107,17 @@ function grabQuestions(){
                 airdate: randomQ.airdate,
                 category: randomQ.category.title,
             }
-            $.extend(currentQuestions, tempQ);
+            $.extend(currentQuestions[qValue], tempQ);
+            // console.log(currentQuestions[qValue])
             targetArray.push(randomQ.id)
         }
+        ++queryInterval
         });
+        queryInterval=1;
+        console.log(currentQuestions)
     };
+
+
 
 //Constructors and Prototypes
 function sound(src) {

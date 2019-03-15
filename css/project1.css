@@ -4,6 +4,10 @@
     margin: 0;
 }
 
+#logo {
+    margin: 20px auto
+}
+
 .question {
     font-family: 'Crimson Text', serif;
 }

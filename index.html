@@ -7,89 +7,140 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <title>Jeopardy-based Trivia Training</title>
     <!-- Added a link to Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Roboto+Condensed" rel="stylesheet">    <link rel="stylesheet" type="text/css" href="css/project1.css">
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/project1.css">
+    <!-- LINK TO FIREBASE GOES HERE -->
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 </head>
+
 <body>
-<div class="container">
-    <div class="row">
+    <div class="container">
+        <div class="row">
             <img id="logo" src="assets/images/jeopardy-logo.png">
+        </div>
     </div>
-</div>
-<div class="container">
-    <div class="row">
-        <table class="table">
-            <tbody id="gameboard">
-                <tr>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$200</p>
-                </td>
-                </tr>
-                <tr>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                <td class="gameBoard">
-                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
-                    <p class="amount text-center">$400</p>
-                </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tbody id="gameboard">
+                    <tr>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$200</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                        <td class="gameBoard">
+                            <svg class="gameSpace">
+                                <use href="#gameSpace"></use>
+                            </svg>
+                            <p class="amount text-center">$400</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+    <!--DSZ adding this table to hold high scores-->
+
+    <table class="table table-striped table-fluid amount" id="high-scores">
+        <thead id="here">
+            <tr>
+                <th scope="col-md-6" class='text-center'>High Scorer</th>
+                <th scope="col-md-6" class='text-center'>$$$</th>
+
+            </tr>
+
+        </thead>
+    </table>
+
+    <!--DSZ adding this DIV to hold a temporary panel to enter username; Disappears when you click submit. Sam can improve!-->
+    <div id="name-panel" class="panel text-center">
+        <h3>Please enter your username</h3>
+        <input class="text-dark" id="name-input">
+        <button class="btn btn-dark" id="submit-name">Submit</button>
+    </div>
+    <!--Note: I haven't written code yet to only display the actual highest scorers from firebase...I'll wait until we have a running total of money-->
+    <!--Wait, does one of us have to make a running total of money??? Let's discuss on Saturday. DSZ-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        $(document).ready(function () { })</script>
+    <script src="js/anime-master/lib/anime.min.js"></script>
+    <script src="js/project1.js"></script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-    $(document).ready(function() {})</script>
-<script src="js/anime-master/lib/anime.min.js"></script>
-<script src="js/project1.js"></script>
-
-
-<svg viewbox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" id="squareExample">
-    <symbol id="gameSpace" class="gameSpace" x="0px" y="0px">
-	 <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black" stroke-width="5px"/>
-    </symbol>
-</svg>
+    <svg viewbox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" id="squareExample">
+        <symbol id="gameSpace" class="gameSpace" x="0px" y="0px">
+            <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black"
+                stroke-width="5px" />
+        </symbol>
+    </svg>
 
 </body>
+
 </html>

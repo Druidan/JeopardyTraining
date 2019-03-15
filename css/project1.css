@@ -1,7 +1,35 @@
+.table td, .table th{
+    padding: 0;
+    width: 200px;
+    margin: 0;
+}
+
 .question {
     font-family: 'Crimson Text', serif;
 }
 
-.category {
-    font-family: ''
+.amount {
+    z-index: 1;
+    position: relative;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: goldenrod;
+    margin-top: 18px;
+}
+
+.gameSpace {
+    width: 200px;
+    height: 100px;
+    z-index: -1;
+    position: absolute;
+}
+
+.gameBoard {
+    width: 200px;
+    position: relative;
+}
+
+#squareExample {
+    display: none;
 }

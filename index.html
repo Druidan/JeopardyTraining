@@ -8,45 +8,71 @@
     <title>Jeopardy-based Trivia Training</title>
     <!-- Added a link to Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/project1.css">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Roboto+Condensed" rel="stylesheet">    <link rel="stylesheet" type="text/css" href="css/project1.css">
     
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-6">
             <img src="assets/images/jeopardy-logo.png">
-        </div>
     </div>
 </div>
 <div class="container">
     <div class="row">
-        <table class="table col-8">
-            <thead>
-                <tr class="text-center">
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text x="45" y="50" font-size="28" fill="yellow"class ="category">Category 1</text></svg></th>
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text y="50" font-size="28" fill="yellow"class ="category">Category 2</text></svg></th>
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text y="50" font-size="28" fill="yellow"class ="category">Category 3</text></svg></th>
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text y="50" font-size="28" fill="yellow"class ="category">Category 4</text></svg></th>
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text y="50" font-size="28" fill="yellow"class ="category">Category 5</text></svg></th>
-                    <th><svg xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0" y="0" width="200" height="100" stroke-width="5" stroke="black" fill="navy"></rect>
-                        <text y="50" font-size="28" fill="yellow"class ="category">Category 6</text></svg></th>
-                </tr>
-            </thead>
+        <table class="table">
             <tbody id="gameboard">
-
+                <tr>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$200</p>
+                </td>
+                </tr>
+                <tr>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                <td class="gameBoard">
+                    <svg class="gameSpace"><use href="#gameSpace"></use></svg>
+                    <p class="amount text-center">$400</p>
+                </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -57,6 +83,13 @@
     $(document).ready(function() {})</script>
 <script src="js/anime-master/lib/anime.min.js"></script>
 <script src="js/project1.js"></script>
+
+
+<svg viewbox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" id="squareExample">
+    <symbol id="gameSpace" class="gameSpace" x="0px" y="0px">
+	 <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black" stroke-width="5px"/>
+    </symbol>
+</svg>
 
 </body>
 </html>

@@ -24,7 +24,7 @@ $(document).ready(function(){    //My JS starts past this point.
     //JService API Query
         let queryInterval = 1;
         let offsetInterval = 0;
-        let targetArray;
+        let targetArray =  []
     
         grabQuestions();
     //API Functions
@@ -220,4 +220,9 @@ $(document).ready(function(){    //My JS starts past this point.
 
         
     //All JS Ends beyond this point.
+
+$('.amount').on('click', function(){
+    grabQuestions();
+})
 });
+

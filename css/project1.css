@@ -41,3 +41,6 @@
 #squareExample {
     display: none;
 }
+.amount:hover{
+    cursor:pointer;
+}

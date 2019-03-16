@@ -4,8 +4,12 @@
     margin: 0;
 }
 
+.table-borderless td, .table-borderless th {
+    border: 0;
+}
 #logo {
-    margin: 20px auto
+    margin: 20px auto;
+    height: 72px
 }
 
 .question {

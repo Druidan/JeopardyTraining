@@ -20,6 +20,8 @@ $(document).ready(function(){    //My JS starts past this point.
         800 : {},
         1000 : {},
     }
+
+    let currentQurl;
     
     //JService API Query
         let queryInterval = 1;
@@ -31,36 +33,39 @@ $(document).ready(function(){    //My JS starts past this point.
     function grabQuestions(){
         let qValue = queryInterval*100;
         //Determine which used question array is being targeted for each go through.
-        if(qValue === 100){
-            targetArray = used100Questions;
-        } else {
-            if(qValue === 200){
+        switch(qValue){
+            case 100:
+                targetArray = used100Questions;
+                break;
+            case 200:
                 targetArray = used200Questions;
-            } else {
-                if(qValue === 300){
-                    targetArray = used300Questions;
-                } else {
-                    if(qValue === 400){
-                        targetArray = used400Questions;
-                    } else {
-                        if(qValue === 500){
-                            targetArray = used500Questions;
-                        } else {
-                            if(qValue === 600){
-                                targetArray = used600Questions;
-                            } else {
-                                if(qValue === 800){
-                                    targetArray = used800Questions;
-                                } else {
-                                    if(qValue === 1000){
-                                        targetArray = used1000Questions;
-                                    } else {
-                                            
-                                        }}}}}}}}
+                break;
+            case 300:
+                targetArray = used300Questions;
+                break;
+            case 400:
+                targetArray = used400Questions;
+                break;
+            case 500:
+                targetArray = used500Questions;
+                break;
+            case 600:
+                targetArray = used600Questions;
+                break;
+            case 800:
+                targetArray = used800Questions;
+                break;
+            case 1000:
+                targetArray = used1000Questions;
+                break;
+            default:
+                break;
+        }
         if(targetArray === 96){//Determine the offset for the jservice search query.
             offsetInterval++
         };
-        const queryURL = "http://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offsetInterval; //Create the Query URL to pull from jService.
+        const offset = offsetInterval * 96;
+        const queryURL = "http://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offset; //Create the Query URL to pull from jService.
         $.get(queryURL, function(response){
             let qsGrabbed = false;
             for (let j = 1 ; j <= 6; j++){
@@ -85,13 +90,9 @@ $(document).ready(function(){    //My JS starts past this point.
                     value: randomQ.value,
                     airdate: randomQ.airdate,
                     category: randomQ.category.title,
-                    imgUrl: "",
                 }
                 $.extend(currentQuestions[qValue], tempQ);
                 targetArray.push(randomQ.id)
-                if (j === 6){
-                    qsGrabbed = true;
-                }
             }
             if(queryInterval < 10){
                 ++queryInterval
@@ -99,72 +100,47 @@ $(document).ready(function(){    //My JS starts past this point.
             if(queryInterval === 7 || queryInterval === 9){
                 ++queryInterval
             }
-            if(qsGrabbed === true){
-                grabPics();
+            if(qValue < 1000){
+                grabQuestions();
+            } else{
+                console.log(currentQuestions);
             }
-            function grabPics(){
-                pixGrabbed = 0;
-                for (let j = 1 ; j <= 6; j++){
-                    imgURLs = [];
-                    let qObjName = "val"+qValue+"Num"+j;
-                    let deepBranch = currentQuestions[qValue];
-                    let rawSearchTerm = deepBranch[qObjName].category;
-                    let pixSearchTerm = rawSearchTerm.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-                    const queryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + pixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
-                    $.get(queryURL, function(response){
-                        if(response.totalHits === 0){
-                            let newPixSearchTerm = pixSearchTerm.split(" ")[0];
-                            const queryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + newPixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
-                            $.get(queryURL, function(response){
-                                imgURLs.push(response.hits[0].largeImageURL);
-                                pixGrabbed++
-                                if(pixGrabbed===6){
-                                    let j = 1;
-                                    imgURLs.forEach( function(i){
-                                        tempImg = {
-                                            imgUrl: i,
-                                        }
-                                        let qObjName = "val"+qValue+"Num"+j;
-                                        let deepBranch = currentQuestions[qValue];
-                                        console.log(deepBranch[qObjName]);
-                                        $.extend(deepBranch[qObjName], tempImg);
-                                        j++
-                                    })
-                                    console.log(currentQuestions);
-                                }
-                                if(pixGrabbed===6 && qValue < 1000){
-                                    grabQuestions();
-                                }
-                            })
-                        } else{
-                            imgURLs.push(response.hits[0].largeImageURL)
-                            pixGrabbed++
-                            if(pixGrabbed===6){
-                                let j = 1;
-                                imgURLs.forEach( function(i){
-                                    tempImg = {
-                                        imgUrl: i,
-                                    }
-                                    let qObjName = "val"+qValue+"Num"+j;
-                                    let deepBranch = currentQuestions[qValue];
-                                    console.log(deepBranch[qObjName]);
-                                    $.extend(deepBranch[qObjName], tempImg);
-                                    j++
-                                })
-                                console.log(currentQuestions);
-                            }
-                            if(pixGrabbed===6 && qValue < 1000){
-                                grabQuestions();
-                            }
-                        }
+        });
+    };
     
+//When a question button is clicked...
+//Grab the category from the button (however it is stored).
+grabPics();
+        function grabPics(){
+                let rawSearchTerm = "sterwers";
+                let pixSearchTerm = rawSearchTerm.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+                const queryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + pixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
+                $.get(queryURL) //kick off a promise (pending)
+                    .then(function(response){ //do stuff when it is resolved or rejected
+                        if(response.totalHits === 0){ //check if we need to do the request again
+                            let newPixSearchTerm = pixSearchTerm.split(" ")[0];
+                            const newQueryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + newPixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
+                            return $.get(newQueryURL); //if so, return a new pending promise
+                        }
+                        return response; //if we don't, return the original response
+                    })
+                    .then(function(response){
+                        if(response.totalHits === 0){ //check if we need to do the request again
+                            return currentQurl = "/assets/images/alexTrebek.jpg";
+                        }
+                        return response.hits[0].largeImageURL;
+                    })
+                    .done(function(currentQurl) { //do finalization tasks
+                        console.log('pics gotten!');
+                        console.log(currentQurl);
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                        currentQurl = "/assets/images/alexTrebek.jpg";
+                        console.log(currentQurl);
+                        //other stuff upon this error
                     });
                 }
-            }
-            });
-        };
-    
-    
     
     
     

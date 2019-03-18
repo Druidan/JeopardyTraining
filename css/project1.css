@@ -23,12 +23,25 @@
     font-weight: bold;
     font-size: 40px;
     color: goldenrod;
-    margin-top: 18px;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+#nameEntry {
+    z-index: 2;
+    position: relative;
+    margin: auto;
+    top: 0;
+}
+
+#name-input {
+    z-index: 3;
+    position: absolute;
+    margin: auto;
 }
 
 .gameSpace {
-    width: 200px;
-    height: 100px;
+    width: 100%;
     z-index: -1;
     position: absolute;
 }
@@ -36,6 +49,28 @@
 .gameBoard {
     width: 200px;
     position: relative;
+}
+
+.nameBoard {
+    display: block;
+    margin: auto;
+    width: 100%;
+    position: absolute;
+}
+
+.scoreBoard {
+    width: 100%;
+    position: relative;
+}
+
+#name-panel {
+    z-index: 3;
+    position: absolute;
+}
+
+#here {
+    z-index: -1;
+    position: absolute;
 }
 
 #squareExample {

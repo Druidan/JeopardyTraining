@@ -231,7 +231,8 @@
                 </td>
                 </tr>   
             </tbody>
-            <!-- <tbody class="questionBoard">
+            
+            <tbody class="questionBoard">
                 <tr class="row">
                     <td>
                         <img class="categoryImg" src="" alt="">
@@ -244,27 +245,14 @@
                 </tr>
                 <tr>
                     <form>
-                        
+                        <button class="submitAnswer"></button>
                     </form>
                 </tr>
-            </tbody> -->
+            </tbody>
         </table>
     </div>
 </div>
 
-<!--DSZ adding this table to hold high scores-->
-<div class="container" id="squareExample">
-<div class="row">
-    <svg class="scoreBoard"><use href="#gameSpace"></use></svg>
-    <table class="table table-striped table-fluid amount" id="high-scores">
-        <thead id="here">
-            <tr>
-                <th scope="col-md-6" class='text-center'>High Scorer</th>
-                <th scope="col-md-6" class='text-center'>$$$</th>
-            </tr>
-        </thead>
-    </table>
-</div></div>
 
 <div class="container" id="nameEntry">
         <div class="row">
@@ -276,6 +264,15 @@
             </div>
         </div></div>
         
+<table class="table table-striped table-fluid amount" id="high-scores">
+    <thead id="here">
+        <tr>
+            <th scope="col-md-6" class='text-center'>High Scorer</th>
+            <th scope="col-md-6" class='text-center'><p class='text-center'>$</p><p class='text-center' id="current-total"></p></th>
+        </tr>
+
+    </thead>
+</table>
 
 <!--DSZ adding this DIV to hold a temporary panel to enter username; Disappears when you click submit. Sam can improve!-->
 

@@ -1,15 +1,23 @@
 $(document).ready(function(){    //My JS starts past this point.
 
+    //Game State Settings
+    startScreenUp = true;
+    gameOn = false;
+    gameLoading = false;
+    qScreenUp = false;
+    endScreen = false;
 
-    used100Questions = [];
-    used200Questions = [];
-    used300Questions = [];
-    used400Questions = [];
-    used500Questions = [];
-    used600Questions = [];
-    used800Questions = [];
-    used1000Questions = [];
+    //Used Question Arrays
+    let used100Questions = [];
+    let used200Questions = [];
+    let used300Questions = [];
+    let used400Questions = [];
+    let used500Questions = [];
+    let used600Questions = [];
+    let used800Questions = [];
+    let used1000Questions = [];
     
+    //Our Question Object
     const currentQuestions = {
         100 : {},
         200 : {},
@@ -21,17 +29,22 @@ $(document).ready(function(){    //My JS starts past this point.
         1000 : {},
     }
 
-    let currentQurl;
-    let rowInterval = 1;
+    let playerName; //This variable is used to store the current player's name. 
+    let thisQsId; //This variable is used to hold the currently selected question's Id.
+    let thisAnswer; //This variable is used to hold the correct answer to the current question, raw before validation.
+    let answerForValidating; //This variable holds the player's raw answer input, before any validation.
+    let currentQurl; //This variable is used to store the url that will be used for the current selected question.
+    let rowInterval = 1; //This variable is used when constructing the question rows on game start.
     
     //JService API Query
         let queryInterval = 1;
         let offsetInterval = 0;
         let targetArray =  []
     
-        grabQuestions();
+    grabQuestions();
     //API Functions
     function grabQuestions(){
+        gameLoading = true;
         let qValue = queryInterval*100;
         //Determine which used question array is being targeted for each go through.
         switch(qValue){
@@ -104,6 +117,7 @@ $(document).ready(function(){    //My JS starts past this point.
             if(qValue < 1000){
                 grabQuestions();
             } else{
+                gameLoading = false;
                 console.log(currentQuestions);
             }
         });
@@ -113,40 +127,41 @@ $(document).ready(function(){    //My JS starts past this point.
 //When a question button is clicked...
 //Grab the category from the button (however it is stored).
 
-    function grabPics(){
-        let rawSearchTerm = thisCategory; //REPLACE WITH JQUERY CONNECTION TO STORED CATEGORY.
-        let pixSearchTerm = rawSearchTerm.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-        const queryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + pixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
-        $.get(queryURL) //kick off a promise (pending)
-            .then(function(response){ //do stuff when it is resolved or rejected
-                if(response.totalHits === 0){ //check if we need to do the request again
-                    let newPixSearchTerm = pixSearchTerm.split(" ")[0];
-                    const newQueryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + newPixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
-                    return $.get(newQueryURL); //if so, return a new pending promise
-                }
-                return response; //if we don't, return the original response
-            })
-            .then(function(response){
-                if(response.totalHits === 0){ //check if we need to do the request again
-                    return currentQurl = "/assets/images/alexTrebek.jpg";
-                }
-                return response.hits[0].largeImageURL;
-            })
-            .done(function(currentQurl) { //do finalization tasks
-                console.log('pics gotten!');
-                console.log(currentQurl);
-            })
-            .catch(function(error) {
-                console.log(error);
-                currentQurl = "/assets/images/alexTrebek.jpg";
-                console.log(currentQurl);
-                //other stuff upon this error
-            });
-    }
+function grabPics(){
+    gameLoading = true;
+    let rawSearchTerm = thisCategory; //REPLACE WITH JQUERY CONNECTION TO STORED CATEGORY.
+    let pixSearchTerm = rawSearchTerm.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    const queryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + pixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
+    $.get(queryURL) //kick off a promise (pending)
+        .then(function(response){ //do stuff when it is resolved or rejected
+            if(response.totalHits === 0){ //check if we need to do the request again
+                let newPixSearchTerm = pixSearchTerm.split(" ")[0];
+                const newQueryURL = "https://pixabay.com/api/?key=11885345-90fa971b5ced0a2f9df494b51&q=" + newPixSearchTerm + "&orientation=horizontal&safesearch=true&order=popular&per_page=3"; //Create the Query URL to pull from Pixabay.
+                return $.get(newQueryURL); //if so, return a new pending promise
+            }
+            return response; //if we don't, return the original response
+        })
+        .then(function(response){
+            if(response.totalHits === 0){ //check if we need to do the request again
+                return currentQurl = "/assets/images/alexTrebek.jpg";
+            }
+            return response.hits[0].largeImageURL;
+        })
+        .done(function(currentQurl) { //do finalization tasks
+            console.log('pics gotten!');
+            console.log(currentQurl);
+            $(".categoryImg").attr("src",currentQurl.toString());
+            gameLoading = false;
+        })
+        .catch(function(error) {
+            console.log(error);
+            currentQurl = "/assets/images/alexTrebek.jpg";
+            $(".categoryImg").attr("src",currentQurl.toString());
+            console.log(currentQurl);
+            gameLoading = false;
+        });
+}
 
-$("#logo").on("click", function(){
-    fillQBtns()
-})
     function fillQBtns(){
             let questionInterval = rowInterval
             switch(questionInterval){
@@ -162,7 +177,6 @@ $("#logo").on("click", function(){
             const questionValue = questionInterval*100;
             if(rowInterval <= 8){
                 ++rowInterval
-                console.log(rowInterval)
                 const gameFrame = $("#gameboard")
                 const gameRow = $("<tr>");
                 rowId = questionValue+"Row"
@@ -176,7 +190,6 @@ $("#logo").on("click", function(){
                         questionFrame.setAttribute('id', "squareExample");
                         questionBucket.innerHTML = '';
                     questionBucket.append(questionFrame);
-
                     // const questionUse = $('<svg xmlns="http://www.w3.org/2000/svg" id="squareExample"><symbol id="gameSpace" class="gameSpace x="0px" y="0px">
                     // <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black" stroke-width="5px"/></symbol></svg>'
                     // );
@@ -203,29 +216,79 @@ $("#logo").on("click", function(){
                     twoDeep = oneDeep[questionId].value;
                     displayValue = twoDeep;               
                     questionText.attr("class", "amount text-center").text("$"+displayValue);
-                    questionBucket.attr("class", "gameBoard").attr("id", questionId).append(questionText);
+                    questionBucket.attr("class", "gameBoard unansweredQ").attr("id", questionId).append(questionText);
                     $("#"+rowId).append(questionBucket);
                 }
             fillQBtns();
             }
     }
-    
-    $("start-button").on("click", function(){
-        grabQuestions();
 
+    $("#submit-name").on("click", function(event){
+        event.preventDefault();
+        if(gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false){
+            gameOn = true;
+            fillQBtns();
+            playerName = $("#name-input").val();
+            console.log(playerName)
+            $("current-total").text(0);
+            $("#name-panel").addClass("buryIt");
+            startScreenUp = false;
+            $("#gameboard").removeClass("buryIt");
+        } else { console.log("Something's not right!") }
     })
 
-    $(document).on("click", ".gameBoard", function(event){
-        thisQsId = $(".gameBoard").attr("id");
-        narrowValue = $(this).children("p");
-        currentValue = narrowValue.text();
-        newValue = currentValue.substring(1);
-        thisValue = currentQuestions[newValue]
-        thisQuestion = thisValue[thisQsId]
-        console.log(thisQuestion)
-        thisCategory = thisQuestion.category
-        grabPics();
-        
+    $(document).on({ //Exact syntax for mouse enter and leave events on populated items comes from Sethen at Stack Overflow: Source: "https://stackoverflow.com/questions/9827095/is-it-possible-to-use-jquery-on-and-hover"
+        mouseenter: function() {
+            if(gameOn === true && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === false){
+                associatedQ = $(this).parent().attr("id");
+                associatedValue = $(this).text().replace(/\$/, "");
+                associateDeeper = currentQuestions[associatedValue]
+                associatedCategory = associateDeeper[associatedQ].category;
+                $(this).text(associatedCategory);
+                $(this).addClass("smallerText");
+            } //else { console.log("Something's not right!") }
+        },
+        mouseleave: function() {
+            if(gameOn === true && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === false){
+                reValue = $(this).parent().parent().attr("id");
+                replaceValue = reValue.replace(/[Row]/g, "");
+                $(this).text("$"+associatedValue);
+                $(this).removeClass("smallerText");
+            } //else { console.log("Something's not right!") }
+        }
+    }, ".amount");
+
+    $(document).on("click", ".unansweredQ", function(){
+        if(gameOn === true && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === false){
+            qScreenUp = true;
+            $(this).removeClass("unansweredQ").addClass("answeredQ");
+            thisQsId = $(this).attr("id");
+            narrowValue = $(this).parent().attr("id");
+            newValue = narrowValue.replace(/[Row]/g, "");
+            thisValue = currentQuestions[newValue];
+            thisQuestion = thisValue[thisQsId];
+            thisAnswer = thisQuestion.answer;
+            thisQText = thisQuestion.question;
+            thisAirDate = thisQuestion.airdate;
+            thisCategory = thisQuestion.category;
+            $("#currentQText").text(thisQText);
+            $("#gameboard").addClass("buryIt");
+            $("#name-panel").addClass("buryIt");
+            $("#questionBoard").removeClass("buryIt");
+            grabPics();
+        }
+    })
+
+    //FOR DENISE - This would be the click event that you need to either work in, or where you will need to call the validating function. The two variables I've got for you are "answerForValidating" which is the player input, and "thisAnswer", which shooouuuld be the answer to the question. I'm hoping my code works like it should in that regard.
+    $(document).on("click", ".submitAnswer", function(event){
+        event.preventDefault();
+        if(gameOn === true && startScreenUp === false && qScreenUp === true && gameLoading === false && endScreen === false){
+            $(".categoryImg").attr("src","assets/images/alexTrebek.jpg");
+            answerForValidating = $("#playerAnswer").val();
+            $("#gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            $("#questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            qScreenUp = false;  //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+        }
     })
     
     //Constructors and Prototypes

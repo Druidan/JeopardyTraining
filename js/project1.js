@@ -6,6 +6,7 @@ $(document).ready(function () {    //My JS starts past this point.
     gameLoading = false;
     qScreenUp = false;
     endScreen = false;
+    playerAnswerCorrect = false;
 
     //Used Question Arrays
     let used100Questions = [];
@@ -97,17 +98,20 @@ $(document).ready(function () {    //My JS starts past this point.
                     }
                 }
                 qObjName = "val" + qValue + "Num" + j;
-                tempQ = {};
-                tempQ[qObjName] = {
-                    id: randomQ.id,
-                    answer: randomQ.answer,
-                    question: randomQ.question,
-                    value: randomQ.value,
-                    airdate: randomQ.airdate,
-                    category: randomQ.category.title,
+                qCheck = currentQuestions[qValue].qObjName
+                if(qCheck === undefined || qCheck === undefined){
+                    tempQ = {};
+                    tempQ[qObjName] = {
+                        id: randomQ.id,
+                        answer: randomQ.answer,
+                        question: randomQ.question,
+                        value: randomQ.value,
+                        airdate: randomQ.airdate,
+                        category: randomQ.category.title,
+                    }
+                    $.extend(currentQuestions[qValue], tempQ);
+                    targetArray.push(randomQ.id)
                 }
-                $.extend(currentQuestions[qValue], tempQ);
-                targetArray.push(randomQ.id)
             }
             if (queryInterval < 10) {
                 ++queryInterval
@@ -220,6 +224,20 @@ $(document).ready(function () {    //My JS starts past this point.
         }
     }
 
+    function resolveSubmission() {
+        if(playerAnswerCorrect === true){
+            $(".gameboard").removeClass("buryIt");
+            $(".questionBoard").addClass("buryIt");
+        } else {
+            if(playerAnswerCorrect === false){
+                gameOn = false;
+                endScreen = true;
+                //remove buryIt class from end screen
+                $(".realAnswer").text(thisAnswer);
+            }
+        }
+    }
+
     $(".submit-name").on("click", function (event) {
         event.preventDefault();
         if (gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false) {
@@ -227,7 +245,7 @@ $(document).ready(function () {    //My JS starts past this point.
             fillQBtns();
             playerName = $(".name-input").val();
             console.log(playerName)
-            $("current-total").text(0);
+            $("#current-total").text(0);
             $("#nameEntry").addClass("buryIt");
             startScreenUp = false;
             $(".gameboard").removeClass("buryIt");
@@ -269,25 +287,38 @@ $(document).ready(function () {    //My JS starts past this point.
             thisAirDate = thisQuestion.airdate;
             thisCategory = thisQuestion.category;
             $(this).text("");
-            $("#currentQText").text(thisQText);
+            $(".currentQText").text(thisQText);
             $(".gameboard").addClass("buryIt");
             $(".questionBoard").removeClass("buryIt");
             grabPics();
         }
     })
 
-    //FOR DENISE - This would be the click event that you need to either work in, or where you will need to call the validating function. The two variables I've got for you are "answerForValidating" which is the player input, and "thisAnswer", which shooouuuld be the answer to the question. I'm hoping my code works like it should in that regard.
     $(document).on("click", ".submitAnswer", function (event) {
         event.preventDefault();
         if (gameOn === true && startScreenUp === false && qScreenUp === true && gameLoading === false && endScreen === false) {
+            qScreenUp = false;
             $(".categoryImg").attr("src", "assets/images/alexTrebek.jpg");
             answerForValidating = $("#playerAnswer").val();
             $(".gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             $(".questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
-            qScreenUp = false;  //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             gameMath();//Calling the function to do the game math
             validating();//Calling the function to validate the input
         }
+    })
+
+
+    //HOPEFULLY this will work, but please test it once the play-again button exists. Be sure to use the class I targeted.
+    $(".play-again").on("click", function (event) {
+        event.preventDefault();
+        if (gameOn === false && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === true) {
+            gameOn = true;
+            endScreen = false;
+            grabQuestions();
+            fillQBtns();
+            $("#current-total").text(0);
+            $(".gameboard").removeClass("buryIt");
+        } else { console.log("Something's not right!") }
     })
 
     //Constructors and Prototypes

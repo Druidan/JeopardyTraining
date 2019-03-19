@@ -31,12 +31,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <p class="currentQText"></p>
+                        <p class="questionBoard buryIt currentQText"></p>
                     </td>
                 </tr>
                 <tr>
                     <form>
-                        <button class="questionBoard buryIt submitAnswer"></button>
+                        <p class="promptText questionBoard buryIt ">Who/What is...</p><input type="text" class="questionBoard buryIt playerAnswer">
+                        <button class="questionBoard buryIt submitAnswer">Submit answer</button>
                     </form>
                 </tr>
             </tbody>
@@ -50,7 +51,7 @@
             <svg class="nameBoard"><use href="#nameEnter"></use></svg>
             <div id="name-panel" class="panel text-center">
                 <h3 class="amount">Please enter your username</h3>
-                <input class="text-dark" id="name-input">
+                <input class="text-dark name-input">
                 <button class="btn btn-dark submit-name">Submit</button>
             </div>
         </div></div>

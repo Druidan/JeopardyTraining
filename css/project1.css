@@ -102,3 +102,13 @@
 .amount:hover{
     cursor:pointer;
 }
+
+.currentQText { 
+    background-color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: #0033cc;
+    margin: auto;
+  }
+  

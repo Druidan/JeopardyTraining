@@ -320,7 +320,7 @@ function grabPics(){
     firebase.initializeApp(config);
 
     // Get a reference to the database service
-    var database = firebase.database();
+    var dataRef = firebase.database();
 
     //push the first name and the high score of the highest jeopardy scorer so far.
     dataRef.ref().push({
@@ -331,7 +331,7 @@ function grabPics(){
     dataRef.ref().on("child_added", function(childSnapshot){
 
         //add this to a high scores list on front end?
-        $("#").append("<tr><td scope= 'row'>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().score + "</td></tr>");
+        $("#here").append("<tr><td scope= 'row'>" + childSnapshot.val().name + "</td><td>" + childSnapshot.val().score + "</td></tr>");
     })
 
     //Now, input validation

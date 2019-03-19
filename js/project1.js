@@ -220,7 +220,7 @@ $(document).ready(function () {    //My JS starts past this point.
         }
     }
 
-    $(".submit-name").on("click", function (event) {
+    $("#submit-name").on("click", function (event) {
         event.preventDefault();
         if (gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false) {
             gameOn = true;

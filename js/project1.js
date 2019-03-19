@@ -288,6 +288,8 @@ $(document).ready(function () {    //My JS starts past this point.
             $("#gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             $("#questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             qScreenUp = false;  //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            gameMath();//Calling the function to do the game math
+            validating();//Calling the function to validate the input
         }
     })
 
@@ -363,12 +365,35 @@ $(document).ready(function () {    //My JS starts past this point.
         console.log("The read failed: " + errorObject.code);
     });
 
-    //Now, input validation
+    //initial values
+    let currentScore= 0;
+    
+    //validating function
+    function validating(){
+        if(/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
+            $("#playerAnswer").append("<p> This contains illegal characters. Try again. </p>");
+            return;
+        }
+    }
+    //game math function
+    function gameMath(){
+        if (thisAnswer.contains(answerForValidating)){ //Feel free to make this more detailed.
+            addtoScore();
+        }else {
+            subfromScore();
+        }
+        $("#current-total").append("The current score is" + currentScore);
+    }
 
-    // let input = $("#").val().trim();
+    function addtoScore(){
+        thisValue + currentScore;
+        console.log(currentScore);
+    }
 
-    //DSZ to add more here.
-    //DSZ JS ends at this point.
+    function subfromScore(){
+        currentScore - thisValue;
+        console.log(currentScore);
+    }
 
 
     //All JS Ends beyond this point.

@@ -32,6 +32,7 @@ $(document).ready(function () {    //My JS starts past this point.
     let playerName; //This variable is used to store the current player's name. 
     let thisQsId; //This variable is used to hold the currently selected question's Id.
     let thisAnswer; //This variable is used to hold the correct answer to the current question, raw before validation.
+    let thisValue;
     let answerForValidating; //This variable holds the player's raw answer input, before any validation.
     let currentQurl; //This variable is used to store the url that will be used for the current selected question.
     let rowInterval = 1; //This variable is used when constructing the question rows on game start.

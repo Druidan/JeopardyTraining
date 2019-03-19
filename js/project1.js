@@ -178,63 +178,59 @@ $(document).ready(function () {    //My JS starts past this point.
         const questionValue = questionInterval * 100;
         if (rowInterval <= 8) {
             ++rowInterval
-            const gameFrame = $("#gameboard")
+            const gameFrame = $(".gameboard")
             const gameRow = $("<tr>");
             rowId = questionValue + "Row"
             gameRow.attr("id", rowId)
             gameFrame.append(gameRow);
             for (let i = 1; i <= 6; ++i) {
                 const questionBucket = $("<td>");
-                // const svgImage = $()
-                // const questionFrame = $('<span>');
-                questionFrame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                questionFrame.setAttribute('id', "squareExample");
-                questionBucket.innerHTML = '';
-                questionBucket.append(questionFrame);
+                // questionFrame = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                // questionFrame.setAttribute('id', "squareExample");
+                // questionBucket.innerHTML = '';
+                questionBucket.html("<svg xmlns='http://www.w3.org/2000/svg' id='squareExample'><symbol id='gameSpace' class='gameSpace' x='0px' y='0px'><rect x='2.5' y='2.5' class='st0' width='100%' height='70px' fill='navy' stroke='black' stroke-width='5px'/></symbol></svg>");
                 // const questionUse = $('<svg xmlns="http://www.w3.org/2000/svg" id="squareExample"><symbol id="gameSpace" class="gameSpace x="0px" y="0px">
                 // <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black" stroke-width="5px"/></symbol></svg>'
                 // );
-                questionUse = document.createElementNS('http://www.w3.org/2000/svg', 'symbol');
-                questionUse.setAttribute('id', "gameSpace");
-                questionUse.setAttribute('class', "gameSpace");
-                questionUse.setAttribute('y', '0px');
-                questionUse.setAttribute('x', '0px');
-                questionFrame.appendChild(questionUse);
-                questionobj = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                questionobj.setAttribute('id', "gameSpace");
-                questionobj.setAttribute('class', "st0");
-                questionobj.setAttribute('width', "195px");
-                questionobj.setAttribute('height', "95px");
-                questionobj.setAttribute('style', "fill:navy; stroke:black; stroke-width:5px");
-                questionobj.setAttribute('y', '2.5');
-                questionobj.setAttribute('x', '2.5');
-                questionUse.appendChild(questionobj);
-
-
+                // questionUse = document.createElementNS('http://www.w3.org/2000/svg', 'symbol');
+                // questionUse.setAttribute('id', "gameSpace");
+                // questionUse.setAttribute('class', "gameSpace");
+                // questionUse.setAttribute('y', '0px');
+                // questionUse.setAttribute('x', '0px');
+                // questionFrame.appendChild(questionUse);
+                // questionobj = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                // questionobj.setAttribute('id', "gameSpace");
+                // questionobj.setAttribute('class', "st0");
+                // questionobj.setAttribute('width', "195px");
+                // questionobj.setAttribute('height', "95px");
+                // questionobj.setAttribute('style', "fill:navy; stroke:black; stroke-width:5px");
+                // questionobj.setAttribute('y', '2.5');
+                // questionobj.setAttribute('x', '2.5');
+                // questionUse.appendChild(questionobj);
                 const questionText = $("<p>");
                 questionId = "val" + questionValue + "Num" + i;
                 oneDeep = currentQuestions[questionValue]
                 twoDeep = oneDeep[questionId].value;
                 displayValue = twoDeep;
                 questionText.attr("class", "amount text-center").text("$" + displayValue);
-                questionBucket.attr("class", "gameBoard unansweredQ").attr("id", questionId).append(questionText);
+                questionBucket.attr("class", "questionBucket unansweredQ").attr("id", questionId).append(questionText);
                 $("#" + rowId).append(questionBucket);
             }
             fillQBtns();
         }
     }
 
-    $("#submit-name").on("click", function (event) {
+    $(".submit-name").on("click", function (event) {
         event.preventDefault();
         if (gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false) {
             gameOn = true;
             fillQBtns();
-            playerName = $("#name-input").val();
+            playerName = $(".name-input").val();
             console.log(playerName)
             $("current-total").text(0);
-            $("#name-panel").addClass("buryIt");
+            $("#nameEntry").addClass("buryIt");
             startScreenUp = false;
-            $("#gameboard").removeClass("buryIt");
+            $(".gameboard").removeClass("buryIt");
         } else { console.log("Something's not right!") }
     })
 
@@ -262,7 +258,7 @@ $(document).ready(function () {    //My JS starts past this point.
     $(document).on("click", ".unansweredQ", function () {
         if (gameOn === true && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === false) {
             qScreenUp = true;
-            $(this).removeClass("unansweredQ").addClass("answeredQ");
+            $(this).removeClass("unansweredQ");
             thisQsId = $(this).attr("id");
             narrowValue = $(this).parent().attr("id");
             newValue = narrowValue.replace(/[Row]/g, "");
@@ -272,10 +268,10 @@ $(document).ready(function () {    //My JS starts past this point.
             thisQText = thisQuestion.question;
             thisAirDate = thisQuestion.airdate;
             thisCategory = thisQuestion.category;
+            $(this).text("");
             $("#currentQText").text(thisQText);
-            $("#gameboard").addClass("buryIt");
-            $("#name-panel").addClass("buryIt");
-            $("#questionBoard").removeClass("buryIt");
+            $(".gameboard").addClass("buryIt");
+            $(".questionBoard").removeClass("buryIt");
             grabPics();
         }
     })
@@ -286,8 +282,8 @@ $(document).ready(function () {    //My JS starts past this point.
         if (gameOn === true && startScreenUp === false && qScreenUp === true && gameLoading === false && endScreen === false) {
             $(".categoryImg").attr("src", "assets/images/alexTrebek.jpg");
             answerForValidating = $("#playerAnswer").val();
-            $("#gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
-            $("#questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            $(".gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            $(".questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             qScreenUp = false;  //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             gameMath();//Calling the function to do the game math
             validating();//Calling the function to validate the input

@@ -39,8 +39,8 @@
     font-weight: bold;
     font-size: 40px;
     color: goldenrod;
-    margin-bottom: 0;
-    margin-top: 10px;
+    margin: auto;
+    padding-top:10px;
 }
 
 #nameEntry {
@@ -62,9 +62,11 @@
     position: absolute;
 }
 
-.gameBoard {
+.questionBucket {
     width: 200px;
     position: relative;
+    background-color: navy;
+    border: solid 5px black !important;
 }
 
 .nameBoard {

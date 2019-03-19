@@ -245,7 +245,7 @@ $(document).ready(function () {    //My JS starts past this point.
             fillQBtns();
             playerName = $(".name-input").val();
             console.log(playerName)
-            $("#current-total").text(0);
+           // $("#current-total").text(0);
             $("#nameEntry").addClass("buryIt");
             startScreenUp = false;
             $(".gameboard").removeClass("buryIt");
@@ -316,7 +316,7 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-            $("#current-total").text(0);
+           // $("#current-total").text(0);
             $(".gameboard").removeClass("buryIt");
         } else { console.log("Something's not right!") }
     })
@@ -336,9 +336,6 @@ $(document).ready(function () {    //My JS starts past this point.
             this.sound.pause();
         }
     }
-
-
-    //DSZ JS begins.
 
     //Config
     var config = {
@@ -394,33 +391,36 @@ $(document).ready(function () {    //My JS starts past this point.
     });
 
     //initial values
-    let currentScore= 0;
+    var currentScore= 0;
     
     //validating function
     function validating(){
         if(/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
-            $("#playerAnswer").append("<p> This contains illegal characters. Try again. </p>");
+            console.log("This contains illegal characters. Try again.");
             return;
         }
     }
     //game math function
     function gameMath(){
-        if (thisAnswer.contains(answerForValidating)){ //Feel free to make this more detailed.
+        if (thisAnswer.includes(answerForValidating)){ //Feel free to make this more detailed.
             addtoScore();
         }else {
             subfromScore();
         }
-        $("#current-total").append("The current score is" + currentScore);
+        $("#current-total").append(currentScore);
     }
 
     function addtoScore(){
-        thisValue + currentScore;
-        console.log(currentScore);
+        currentScore+=thisQuestion.value;
+        console.log("This was the value of the question " + thisQuestion.value)
+        console.log("This is the current score" + currentScore);
     }
 
     function subfromScore(){
-        currentScore - thisValue;
-        console.log(currentScore);
+        currentScore-=thisQuestion.value;
+        console.log("This was the value of the question " + thisQuestion.value);
+        console.log("This is the current score" + currentScore);
+        resolveSubmission();
     }
 
 

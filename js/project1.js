@@ -209,6 +209,9 @@ $(document).ready(function () {    //My JS starts past this point.
         if (playerAnswerCorrect === true) {
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
+            rightAnswerSound = new sound("assets/sounds/rightanswer.mp3");
+            rightAnswerSound.play();
+            console.log("playerAnswerCorrect is true")
         } else {
             if (playerAnswerCorrect === false) {
                 gameOn = false;
@@ -217,6 +220,9 @@ $(document).ready(function () {    //My JS starts past this point.
                 $(".endscreen").removeClass("buryIt");
                 $(".play-again").removeClass("buryIt");
                 $(".realAnswer").text(thisAnswer);
+                timesUpSound = new sound("assets/sounds/timesup.mp3");
+                timesUpSound.play();
+                console.log("playerAnswerCorrect is false")
             }
         }
     }

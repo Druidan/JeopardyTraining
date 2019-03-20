@@ -301,8 +301,10 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-            // $("#current-total").text(0);
+            currentScore=0;
+            $("#current-total").empty();
             $(".gameboard").removeClass("buryIt");
+            $(".endscreen").addClass("buryIt");
         } else { console.log("Something's not right!") }
     })
 
@@ -389,9 +391,9 @@ $(document).ready(function () {    //My JS starts past this point.
     function gameMath() {
 
         if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
-            currentScore += thisValue;
+            currentScore += thisValue.value();
             playerAnswerCorrect = true;
-            console.log("This was the value of the question " + thisQuestion.answer);
+            console.log("This was the value of the question " + thisAnswer);
             console.log("This is the current score" + currentScore);
             resolveSubmission();
         } else {

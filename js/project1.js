@@ -44,6 +44,24 @@ $(document).ready(function () {    //My JS starts past this point.
     let offsetInterval = 0; //Used to determine the offset of the search results in the event that all of the returned questions have been used.
     let targetArray = [] //This blank array is used to switch between the various used question arrays.
 
+    //Users cannot type special characters
+    $(".name-input").keypress(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
+            event.preventDefault(); 
+        }
+    });
+    //Users cannot type special characters
+    $(".playerAnswer").keypress(function(event){
+        var inputValue = event.which;
+        // allow letters and whitespaces only.
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
+            event.preventDefault(); 
+        }
+    });
+
+
     grabQuestions(); //This calls initial question API search when the webpage is opened.
 
     //API Functions
@@ -213,6 +231,9 @@ $(document).ready(function () {    //My JS starts past this point.
             if(qsAnswered === 48){
 
             }
+            rightAnswerSound = new sound("assets/sounds/rightanswer.mp3");
+            rightAnswerSound.play();
+            console.log("playerAnswerCorrect is true")
         } else {
             if (playerAnswerCorrect === false) {
                 gameOn = false;
@@ -222,9 +243,13 @@ $(document).ready(function () {    //My JS starts past this point.
                 $(".endscreen").removeClass("buryIt");
                 $(".play-again").removeClass("buryIt");
                 $(".realAnswer").text(thisAnswer);
+                timesUpSound = new sound("assets/sounds/timesup.mp3");
+                timesUpSound.play();
+                console.log("playerAnswerCorrect is false")
             }
         }
     }
+
 
 
     $(".submit-name").on("click", function (event) {
@@ -240,6 +265,8 @@ $(document).ready(function () {    //My JS starts past this point.
             $(".gameboard").removeClass("buryIt");
         } else { console.log("Something's not right!") }
     })
+
+
 
     $(document).on({ //Exact syntax for mouse enter and leave events on populated items comes from Sethen at Stack Overflow: Source: "https://stackoverflow.com/questions/9827095/is-it-possible-to-use-jquery-on-and-hover"
         mouseenter: function () {

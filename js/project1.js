@@ -279,7 +279,7 @@ $(document).ready(function () {    //My JS starts past this point.
         if (gameOn === true && startScreenUp === false && qScreenUp === true && gameLoading === false && endScreen === false) {
             qScreenUp = false;
             $(".categoryImg").attr("src", "assets/images/alexTrebek.jpg");
-            answerForValidating = $("#playerAnswer").val();
+            answerForValidating = $(".playerAnswer").val();
             $(".gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             $(".questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             gameMath();//Calling the function to do the game math
@@ -382,26 +382,22 @@ $(document).ready(function () {    //My JS starts past this point.
     }
     //game math function
     function gameMath(){
-        if (thisAnswer.includes(answerForValidating)){ //Feel free to make this more detailed.
-            addtoScore();
+
+        if (thisQuestion.answer.trim().toLowerCase().includes(answerForValidating)){ //Feel free to make this more detailed.
+            currentScore+=thisQuestion.value;
+            console.log("This was the value of the question " + thisQuestion.answer);
+            console.log("This is the current score" + currentScore);
         }else {
-            subfromScore();
+            currentScore-=thisQuestion.value;
+            console.log("This was the value of the question " + thisQuestion.value);
+            console.log("This was the question's answer " + thisQuestion.answer);
+            console.log("This was your answer" + answerforValidating);
+            console.log("This is the current score" + currentScore);
+            resolveSubmission();
         }
         $("#current-total").append(currentScore);
     }
 
-    function addtoScore(){
-        currentScore+=thisQuestion.value;
-        console.log("This was the value of the question " + thisQuestion.value)
-        console.log("This is the current score" + currentScore);
-    }
-
-    function subfromScore(){
-        currentScore-=thisQuestion.value;
-        console.log("This was the value of the question " + thisQuestion.value);
-        console.log("This is the current score" + currentScore);
-        resolveSubmission();
-    }
 
 
     //All JS Ends beyond this point.

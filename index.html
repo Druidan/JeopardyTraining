@@ -26,6 +26,8 @@
     </div>
     <div class="container">
         <div class="row">
+    <div class="container" id="qContain">
+        <div class="row text-center">
             <table class="table table-borderless">
                 <tbody class="endscreen buryIt">
                 </tbody>
@@ -47,6 +49,25 @@
                     </tr>
                 </tbody>
             </table>
+            <!-- Building the question area -->
+                <div class="row">
+                <div class="questionBoard buryIt" id="qPanel">
+        <svg class="nameBoard" xmlns="http://www.w3.org/2000/svg">
+        <use href="#nameEnter"></use>
+        <foreignObject x="5%" y="10%" width="90%" height="120%">
+                <div class="row">
+                    <div class="col-3">
+                        <img class="categoryImg" height="100px" src="" alt=""></div>
+                    <div class="col-9">
+                    <p class="row questionBoard buryIt askingQuestion">The Category is: <span class="displayCategory"></span></p>
+                    <p class="row center-text questionBoard buryIt currentQText askingQuestion"></p>
+                    </div>
+                </div>
+                    <form class="row answerArea">
+                        <p class="promptText questionBoard buryIt askingQuestion col-3">Who/What is...</p><input type="text" class="questionBoard buryIt playerAnswer col-6">
+                        <button class="questionBoard buryIt submitAnswer col-3 text-center">Submit answer</button>
+                    </form>
+        </foreignObject></svg>
         </div>
 
         <div class="container">
@@ -78,6 +99,7 @@
             </div>
 
 
+<<<<<<< HEAD
             <div class="container" id="nameEntry">
                 <div class="row text-center">
                     <div id="name-panel" class="input-form text-center">
@@ -96,8 +118,27 @@
                         </svg>
                     </div>
                 </div>
+=======
+    <div class="container" id="nameEntry">
+        <div class="row text-center">
+            <div id="name-panel" class="input-form text-center">
+                <svg class="nameBoard" xmlns="http://www.w3.org/2000/svg">
+                    <use href="#nameEnter"></use>
+                    <foreignObject x="5%" y="10%" width="90%" height="80%">
+                        <h3 class="nonAmount">Please enter your username</h3>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control text-dark name-input" placeholder="Alex"
+                                aria-label="Alex" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="input-group-text submit-name">Let's Play!</button>
+                            </div>
+                        </div>
+                    </foreignObject>
+                </svg>
+>>>>>>> trevorFeature
             </div>
 
+<<<<<<< HEAD
             <div class="gameboard table-striped table-fluid amount buryIt" id="your-scores">
                 <tr>
                     <th scope="col-md-6" class='text-center'>
@@ -119,6 +160,29 @@
 
                 </thead>
             </div>
+=======
+    <div class="table table-striped table-fluid nonAmount" id="your-scores">
+            <tr>
+                <th scope="col-md-6" class='text-center'>
+                    <p class='text-center'>Your $</p>
+                    <p class='text-center' id="current-total"></p>
+                </th>
+            </tr>
+</div>
+
+    <div class="table table-striped table-fluid nonAmount" id="high-scores">
+        <thead id="here">
+            <tr>
+                <th scope="col-md-6" class='text-center'>High Scorer</th>
+                <th scope="col-md-6" class='text-center'>
+                    <p class='text-center'>Highest $ Won</p>
+                    <p class='text-center' id="highest-total"></p>
+                </th>
+            </tr>
+
+        </thead>
+    </div>
+>>>>>>> trevorFeature
 
             <!--DSZ adding this DIV to hold a temporary panel to enter username; Disappears when you click submit. Sam can improve!-->
 

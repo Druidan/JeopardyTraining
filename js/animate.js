@@ -15,4 +15,16 @@ let nameDrop = anime.timeline({
 });
 
 
+let questionUp = anime.timeline({
+    loop: false,
+    }) .add({
+    targets: "qContain",
+    translateY: 2000,
+    duration: 0,
+    }) .add({
+    targets: "qContain",
+    translateY: 20,
+    delay: 800
+})
+
 // document.querySelector('#submit-name').onclick = nameUp.play;

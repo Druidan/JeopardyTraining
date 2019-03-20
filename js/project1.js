@@ -240,6 +240,7 @@ $(document).ready(function () {    //My JS starts past this point.
                 endScreen = true;
                 queryInterval = 1;
                 //remove buryIt class from end screen
+                $(".currentQText").removeClass("endscreen");
                 $(".endscreen").removeClass("buryIt");
                 $(".play-again").removeClass("buryIt");
                 $(".realAnswer").text(thisAnswer);
@@ -292,6 +293,7 @@ $(document).ready(function () {    //My JS starts past this point.
     $(document).on("click", ".unansweredQ", function () {
         if (gameOn === true && startScreenUp === false && qScreenUp === false && gameLoading === false && endScreen === false) {
             qScreenUp = true;
+            $(".winner").addClass("buryIt");
             $(this).removeClass("unansweredQ");
             thisQsId = $(this).attr("id");
             narrowValue = $(this).parent().attr("id");
@@ -341,6 +343,7 @@ $(document).ready(function () {    //My JS starts past this point.
             $("#current-total").empty();
             $(".gameboard").removeClass("buryIt");
             $(".endscreen").addClass("buryIt");
+            $(".play-again").addClass("buryIt");
         } else { console.log("Something's not right!") }
     })
 
@@ -427,6 +430,7 @@ $(document).ready(function () {    //My JS starts past this point.
     function gameMath() {
 
         if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
+            $(".winner").removeClass("buryIt");
             currentScore += thisValue.value();
             playerAnswerCorrect = true;
             console.log("This was the value of the question " + thisAnswer);
@@ -434,10 +438,6 @@ $(document).ready(function () {    //My JS starts past this point.
             resolveSubmission();
         } else {
             playerAnswerCorrect = false;
-            //console.log("This was the value of the question " + thisQuestion.value);
-            //console.log("This was the question's answer " + thisQuestion.answer);
-            //console.log("This was your answer" + answerforValidating);
-
             resolveSubmission();
         }
         $("#current-total").append(currentScore);

@@ -205,22 +205,27 @@ $(document).ready(function () {    //My JS starts past this point.
     }
 
     function resolveSubmission() {
-        if(playerAnswerCorrect === true){
+        //$(".gameboard").addClass("buryIt");
+
+        if (playerAnswerCorrect === true) {
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
             if(qsAnswered === 48){
 
             }
         } else {
-            if(playerAnswerCorrect === false){
+            if (playerAnswerCorrect === false) {
                 gameOn = false;
                 endScreen = true;
                 queryInterval = 1;
                 //remove buryIt class from end screen
+                $(".endscreen").removeClass("buryIt");
+                $(".play-again").removeClass("buryIt");
                 $(".realAnswer").text(thisAnswer);
             }
         }
     }
+
 
     $(".submit-name").on("click", function (event) {
         event.preventDefault();
@@ -293,7 +298,6 @@ $(document).ready(function () {    //My JS starts past this point.
             $(".playerAnswer").val("");
             gameMath();//Calling the function to do the game math
             validating();//Calling the function to validate the input
-
         }
     })
 
@@ -306,8 +310,10 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-            // $("#current-total").text(0);
+            currentScore=0;
+            $("#current-total").empty();
             $(".gameboard").removeClass("buryIt");
+            $(".endscreen").addClass("buryIt");
         } else { console.log("Something's not right!") }
     })
 
@@ -337,7 +343,7 @@ $(document).ready(function () {    //My JS starts past this point.
     firebase.initializeApp(config);
 
     //assign the reference to the database to dataref
-    var dataRef= firebase.database();
+    var dataRef = firebase.database();
 
     //initial values
     var yourName = "";
@@ -381,37 +387,35 @@ $(document).ready(function () {    //My JS starts past this point.
     });
 
     //initial values
-    var currentScore= 0;
-    
+    var currentScore = 0;
+
     //validating function
-    function validating(){
-        if(/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
+    function validating() {
+        if (/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
             console.log("This contains illegal characters. Try again.");
             return;
         }
     }
     //game math function
-    function gameMath(){
-        if (thisAnswer.includes(answerForValidating)){ //Feel free to make this more detailed.
-            addtoScore();
-        }else {
-            subfromScore();
+    function gameMath() {
+
+        if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
+            currentScore += thisValue.value();
+            playerAnswerCorrect = true;
+            console.log("This was the value of the question " + thisAnswer);
+            console.log("This is the current score" + currentScore);
+            resolveSubmission();
+        } else {
+            playerAnswerCorrect = false;
+            //console.log("This was the value of the question " + thisQuestion.value);
+            //console.log("This was the question's answer " + thisQuestion.answer);
+            //console.log("This was your answer" + answerforValidating);
+
+            resolveSubmission();
         }
         $("#current-total").append(currentScore);
     }
 
-    function addtoScore(){
-        currentScore+=thisQuestion.value;
-        console.log("This was the value of the question " + thisQuestion.value)
-        console.log("This is the current score" + currentScore);
-    }
-
-    function subfromScore(){
-        currentScore-=thisQuestion.value;
-        console.log("This was the value of the question " + thisQuestion.value);
-        console.log("This is the current score" + currentScore);
-        resolveSubmission();
-    }
 
 
     //All JS Ends beyond this point.

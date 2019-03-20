@@ -204,6 +204,8 @@ $(document).ready(function () {    //My JS starts past this point.
     }
 
     function resolveSubmission() {
+        //$(".gameboard").addClass("buryIt");
+
         if (playerAnswerCorrect === true) {
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
@@ -212,10 +214,13 @@ $(document).ready(function () {    //My JS starts past this point.
                 gameOn = false;
                 endScreen = true;
                 //remove buryIt class from end screen
+                $(".endscreen").removeClass("buryIt");
+                $(".play-again").removeClass("buryIt");
                 $(".realAnswer").text(thisAnswer);
             }
         }
     }
+
 
     $(".submit-name").on("click", function (event) {
         event.preventDefault();
@@ -385,11 +390,12 @@ $(document).ready(function () {    //My JS starts past this point.
 
         if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
             currentScore += thisValue;
-            playerAnswerCorrect === true;
+            playerAnswerCorrect = true;
             console.log("This was the value of the question " + thisQuestion.answer);
             console.log("This is the current score" + currentScore);
+            resolveSubmission();
         } else {
-            playerAnswerCorrect === false;
+            playerAnswerCorrect = false;
             //console.log("This was the value of the question " + thisQuestion.value);
             //console.log("This was the question's answer " + thisQuestion.answer);
             //console.log("This was your answer" + answerforValidating);

@@ -402,7 +402,10 @@ $(document).ready(function () {    //My JS starts past this point.
     }
     //game math function
     function gameMath(){
-        if (thisAnswer.includes(answerForValidating)){ //Feel free to make this more detailed.
+        answerforValidating = $(answerForValidating).text().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+        thisQuestion.answer = $(thisQuestion.answer).text().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+
+        if (thisQuestion.answer.trim().toLowerCase().includes(answerForValidating)){ //Feel free to make this more detailed.
             addtoScore();
         }else {
             subfromScore();
@@ -419,6 +422,8 @@ $(document).ready(function () {    //My JS starts past this point.
     function subfromScore(){
         currentScore-=thisQuestion.value;
         console.log("This was the value of the question " + thisQuestion.value);
+        console.log("This was the question's answer " + thisQuestion.answer.trim().toLowerCase());
+        console.log("This was your answer" + answerforValidating.trim().toLowerCase());
         console.log("This is the current score" + currentScore);
         resolveSubmission();
     }

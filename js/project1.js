@@ -45,19 +45,19 @@ $(document).ready(function () {    //My JS starts past this point.
     let targetArray = [] //This blank array is used to switch between the various used question arrays.
 
     //Users cannot type special characters
-    $(".name-input").keypress(function(event){
+    $(".name-input").keypress(function (event) {
         var inputValue = event.which;
         // allow letters and whitespaces only.
-        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
-            event.preventDefault(); 
+        if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+            event.preventDefault();
         }
     });
     //Users cannot type special characters
-    $(".playerAnswer").keypress(function(event){
+    $(".playerAnswer").keypress(function (event) {
         var inputValue = event.which;
         // allow letters and whitespaces only.
-        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
-            event.preventDefault(); 
+        if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+            event.preventDefault();
         }
     });
 
@@ -118,7 +118,7 @@ $(document).ready(function () {    //My JS starts past this point.
                 }
                 qObjName = "val" + qValue + "Num" + j; //Construct the unique object name for this question - val (value) qValue (numerical value of the question) Num (number) j (1-6), So, the first one would be val100Num1 - The value 100 question number 1.
                 qCheck = currentQuestions[qValue].qObjName //Establish the location of where the question would go in the currentQuestions object.
-                if(qCheck === undefined || qCheck === undefined){ //Check to see if that location already has a value in it (an existing question). If it doesn't fill it.
+                if (qCheck === undefined || qCheck === undefined) { //Check to see if that location already has a value in it (an existing question). If it doesn't fill it.
                     tempQ = {}; //Establish a temporary object that will house the data we are moving into the current Questions object.
                     tempQ[qObjName] = { //further establish the object and fill it with the data pulled from the response.
                         id: randomQ.id,
@@ -228,7 +228,7 @@ $(document).ready(function () {    //My JS starts past this point.
         if (playerAnswerCorrect === true) {
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
-            if(qsAnswered === 48){
+            if (qsAnswered === 48) {
 
             }
             rightAnswerSound = new sound("assets/sounds/rightanswer.mp3");
@@ -340,8 +340,8 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-            currentScore=0;
-            $("#current-total").empty();
+            //currentScore = 0;
+            //$("#current-total").empty();
             $(".gameboard").removeClass("buryIt");
             $(".endscreen").addClass("buryIt");
             $(".play-again").addClass("buryIt");
@@ -364,59 +364,6 @@ $(document).ready(function () {    //My JS starts past this point.
         }
     }
 
-    //Config
-    var config = {
-        apiKey: "AIzaSyBE2l3onlS-3BG2b2eMS75SsDarXCC-uyg",
-        authDomain: "project-1-62290.firebaseapp.com",
-        databaseURL: "https://project-1-62290.firebaseio.com",
-        storageBucket: "project-1-62290.appspot.com"
-    };
-    firebase.initializeApp(config);
-
-    //assign the reference to the database to dataref
-    var dataRef = firebase.database();
-
-    //initial values
-    var yourName = "";
-    var yourScore = "";
-    var highName = "";
-    var highScore = "";
-
-
-    //push the first name and the high score of the highest jeopardy scorer so far.
-    dataRef.ref().set({
-        yourName: yourName,
-        yourScore: yourScore,
-        highName: highName,
-        highScore: highScore,
-    });
-
-    dataRef.ref().on("value", function (snapshot) {
-
-        if (snapshot.child("highName").exists() && snapshot.child("highScore").exists()) {
-            //set variables to equal the stored values
-            let highName = snapshot.val().highName;
-            let highScore = snapshot.val().highScore;
-
-            //change html to reflect the stored values
-            $("#here").append("<tr><td scope= 'row'>" + snapshot.val().highName + "</td><td>" + snapshot.val().highScore + "</td></tr>");
-
-
-            //print to console
-            console.log(highName);
-            console.log(highScore);
-
-        } //if Firebase doesnt have highest yet
-        else {
-
-            $("#here").append("<tr><td scope= 'row'> 'No one yet' </td><td> '0' </td></tr>");
-
-        }
-    }, function (errorObject) {
-        //log error to console
-        console.log("The read failed: " + errorObject.code);
-    });
-
     //initial values
     var currentScore = 0;
 
@@ -427,42 +374,26 @@ $(document).ready(function () {    //My JS starts past this point.
             return;
         }
     }
-    //game math function
-    // function gameMath() {
-
-    //     if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
-
-    //         currentScore += thisValue;
-    //         playerAnswerCorrect = true;
-    //         console.log("This was the value of the question " + thisValue);
-    //         console.log("This is the current score" + currentScore);
-    //         resolveSubmission();
-    //     } else {
-    //         playerAnswerCorrect = false;
-    //         resolveSubmission();
-    //     }
-    //     $("#current-total").append(currentScore);
-    // }
 
     function gameMath() {
         let validatedPlayerAnswer;
         let validatedTrueAnswer;
         validatePlayerAnswer();
-        function validatePlayerAnswer(){
+        function validatePlayerAnswer() {
             paLowerCaseTrimmed = answerForValidating.trim().toLowerCase();
-            paPuctuationless = paLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-            paPrepositionless = paPuctuationless.replace(/(?:(the|a|an))/g,"");
+            paPuctuationless = paLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+            paPrepositionless = paPuctuationless.replace(/(?:(the|a|an))/g, "");
             validatedPlayerAnswer = paPrepositionless;
         }
         validateTrueAnswer();
-        function validateTrueAnswer(){
+        function validateTrueAnswer() {
             taLowerCaseTrimmed = thisAnswer.trim().toLowerCase();
-            taPuctuationless = taLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-            taPrepositionless = taPuctuationless.replace(/(?:(the|a|an))/g,"");
+            taPuctuationless = taLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+            taPrepositionless = taPuctuationless.replace(/(?:(the|a|an))/g, "");
             validatedTrueAnswer = taPrepositionless;
         }
-        if (validatedTrueAnswer.includes(validatedPlayerAnswer) || validatedPlayerAnswer.includes(validatedTrueAnswer)) { 
-            $(".winner").removeClass("buryIt"); 
+        if (validatedTrueAnswer.includes(validatedPlayerAnswer) || validatedPlayerAnswer.includes(validatedTrueAnswer)) {
+            $(".winner").removeClass("buryIt");
             currentScore += thisValue[thisQsId].value;
             playerAnswerCorrect = true;
             console.log("This was the value of the question " + thisValue[thisQsId].value);
@@ -475,7 +406,103 @@ $(document).ready(function () {    //My JS starts past this point.
         $("#current-total").text(currentScore);
     }
 
-    //All JS Ends beyond this point.
+
+    //Config Firebase
+    var config = {
+        apiKey: "AIzaSyBE2l3onlS-3BG2b2eMS75SsDarXCC-uyg",
+        authDomain: "project-1-62290.firebaseapp.com",
+        databaseURL: "https://project-1-62290.firebaseio.com",
+        storageBucket: "project-1-62290.appspot.com"
+    };
+    firebase.initializeApp(config);
+
+    //assign the reference to the database to dataref
+    var database = firebase.database();
+
+    //initial values
+    let yourName = "No one"
+    let yourScore = 0;
+    var highName = yourName;
+    var highScore = yourScore;
+
+
+    //push the first name and the high score of the highest jeopardy scorer so far.
+    database.ref().set({
+        yourName: yourName,
+        yourScore: yourScore,
+        highName: highName,
+        highScore: highScore,
+    });
+    //update page in real time
+    database.ref().on("value", function (snapshot) {
+
+        //if theres already a high score and player stored
+        if (snapshot.child("highName").exists() && snapshot.child("highScore").exists()) {
+            //set variables to equal the stored values
+            let highName = snapshot.val().highName;
+            let highScore = snapshot.val().highScore;
+
+            // Change the HTML to reflect the new high price and player
+            $("#highest-name").text(highName);
+            $("#highest-total").text(highScore);
+
+
+            //print to console
+            console.log(highName);
+            console.log(highScore);
+
+        } //if Firebase doesnt have highest yet
+        else {
+            $("#highest-name").text("No one");
+            $("#highest-total").text(0);
+        }
+    }, function (errorObject) {
+        //log error to console
+        console.log("The read failed: " + errorObject.code);
+    });
+
+    //whenever you lose aka play-again is clicked
+    $(".play-again").on("click", function (event) {
+        //prevent form from submitting
+        event.preventDefault();
+
+        //get input values
+        let yourName = playerName;
+        let yourScore = currentScore;
+
+        //if your score is higher than highest score
+        if (yourScore > highScore) {
+            console.log(yourScore);
+            console.log(yourName);
+
+            // Alert
+            alert("You are now the best.");
+
+            // Save the new score to Firebase
+            database.ref().set({
+                highName: yourName,
+                highScore: yourScore
+            })
+
+            //Log the new high score and player
+
+            console.log(highScore);
+            console.log(highName);
+
+            // Store the new high score and name as a local variable
+            let newHighName = snapshot.val().highName;
+            let newHighScore = snapshot.val().highScore;
+
+            // Change the HTML to reflect the new high price and bidder
+            $("#highest-name").text(newHighName);
+            $("#highest-total").text(newHighScore);
+
+        } else {
+            alert("you didn't beat the last guy");
+        }
+
+    });
+
 
     $('.amount').on('click', function () {
         grabQuestions();

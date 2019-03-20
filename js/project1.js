@@ -308,6 +308,7 @@ $(document).ready(function () {    //My JS starts past this point.
             $(".currentQText").text(thisQText);
             console.log(thisCategory);
             console.log(thisAnswer);
+            console.log(thisValue[thisQsId].value);
             $(".displayCategory").text(thisCategory);
             $(".gameboard").addClass("buryIt");
             $(".questionBoard").removeClass("buryIt");
@@ -462,16 +463,16 @@ $(document).ready(function () {    //My JS starts past this point.
         }
         if (validatedTrueAnswer.includes(validatedPlayerAnswer) || validatedPlayerAnswer.includes(validatedTrueAnswer)) { 
             $(".winner").removeClass("buryIt"); 
-            currentScore += newValue;
+            currentScore += thisValue[thisQsId].value;
             playerAnswerCorrect = true;
-            console.log("This was the value of the question " + thisAnswer);
-            console.log("This is the current score" + currentScore);
+            console.log("This was the value of the question " + thisValue[thisQsId].value);
+            console.log("This is the current score " + currentScore);
             resolveSubmission();
         } else {
             playerAnswerCorrect = false;
             resolveSubmission();
         }
-        $("#current-total").append(currentScore);
+        $("#current-total").text(currentScore);
     }
 
     //All JS Ends beyond this point.

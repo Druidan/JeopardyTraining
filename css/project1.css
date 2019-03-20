@@ -64,6 +64,14 @@
     margin: auto;
 }
 
+.gameboard{
+    justify-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
 .gameSpace {
     width: 100%;
     z-index: -1;
@@ -88,6 +96,29 @@
 .scoreBoard {
     width: 100%;
     position: relative;
+}
+
+.questionBoardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1%;
+}
+
+.questionBoard{
+    text-align: center;
+}
+
+.categoryImg {
+    width: 100%;
+    margin: auto;
+}
+
+.displayCategory{
+    text-align: center;
+    justify-self: center;
+    margin: auto;
 }
 
 #here {

@@ -31,6 +31,7 @@ $(document).ready(function () {    //My JS starts past this point.
     }
 
     let playerName; //This variable is used to store the current player's name. 
+    let qsAnswered = 0; //This variable is used to determine if all the questions on a screen have been answered ot not.
     let thisQsId; //This variable is used to hold the currently selected question's Id.
     let thisAnswer; //This variable is used to hold the correct answer to the current question, raw before validation.
     let thisValue; //This variable is used to hold the value of the currently selected question.
@@ -99,9 +100,9 @@ $(document).ready(function () {    //My JS starts past this point.
                 }
                 qObjName = "val" + qValue + "Num" + j; //Construct the unique object name for this question - val (value) qValue (numerical value of the question) Num (number) j (1-6), So, the first one would be val100Num1 - The value 100 question number 1.
                 qCheck = currentQuestions[qValue].qObjName //Establish the location of where the question would go in the currentQuestions object.
-                if(qCheck === undefined || qCheck === undefined){ //Check to see if that location already has a value in it (an existing question)
-                    tempQ = {};
-                    tempQ[qObjName] = {
+                if(qCheck === undefined || qCheck === undefined){ //Check to see if that location already has a value in it (an existing question). If it doesn't fill it.
+                    tempQ = {}; //Establish a temporary object that will house the data we are moving into the current Questions object.
+                    tempQ[qObjName] = { //further establish the object and fill it with the data pulled from the response.
                         id: randomQ.id,
                         answer: randomQ.answer,
                         question: randomQ.question,
@@ -109,11 +110,11 @@ $(document).ready(function () {    //My JS starts past this point.
                         airdate: randomQ.airdate,
                         category: randomQ.category.title,
                     }
-                    $.extend(currentQuestions[qValue], tempQ);
-                    targetArray.push(randomQ.id)
+                    $.extend(currentQuestions[qValue], tempQ); //take the data from the temp object and move it to the currentQuestions object.
+                    targetArray.push(randomQ.id) //Push the question's Id into the used questions array to make sure it isn't used again.
                 }
             }
-            if (queryInterval < 10) {
+            if (queryInterval < 10) { //If the interval is less than 10, increase it.
                 ++queryInterval
             }
             if (queryInterval === 7 || queryInterval === 9) {
@@ -207,10 +208,14 @@ $(document).ready(function () {    //My JS starts past this point.
         if(playerAnswerCorrect === true){
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
+            if(qsAnswered === 48){
+
+            }
         } else {
             if(playerAnswerCorrect === false){
                 gameOn = false;
                 endScreen = true;
+                queryInterval = 1;
                 //remove buryIt class from end screen
                 $(".realAnswer").text(thisAnswer);
             }
@@ -224,7 +229,7 @@ $(document).ready(function () {    //My JS starts past this point.
             fillQBtns();
             playerName = $(".name-input").val();
             console.log(playerName)
-            $("#current-total").text(0);
+            // $("#current-total").text(0);
             $("#nameEntry").addClass("buryIt");
             startScreenUp = false;
             $(".gameboard").removeClass("buryIt");
@@ -267,6 +272,9 @@ $(document).ready(function () {    //My JS starts past this point.
             thisCategory = thisQuestion.category;
             $(this).text("");
             $(".currentQText").text(thisQText);
+            console.log(thisCategory);
+            console.log(thisAnswer);
+            $(".displayCategory").text(thisCategory);
             $(".gameboard").addClass("buryIt");
             $(".questionBoard").removeClass("buryIt");
             grabPics();
@@ -279,11 +287,13 @@ $(document).ready(function () {    //My JS starts past this point.
         if (gameOn === true && startScreenUp === false && qScreenUp === true && gameLoading === false && endScreen === false) {
             qScreenUp = false;
             $(".categoryImg").attr("src", "assets/images/alexTrebek.jpg");
-            answerForValidating = $("#playerAnswer").val();
+            answerForValidating = $(".playerAnswer").val();
             $(".gameboard").removeClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
             $(".questionBoard").addClass("buryIt"); //Might change based on future needs. Currently exists to facilitate screen switching for testing.
+            $(".playerAnswer").val("");
             gameMath();//Calling the function to do the game math
             validating();//Calling the function to validate the input
+
         }
     })
 
@@ -296,7 +306,7 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-            $("#current-total").text(0);
+            // $("#current-total").text(0);
             $(".gameboard").removeClass("buryIt");
         } else { console.log("Something's not right!") }
     })
@@ -316,9 +326,6 @@ $(document).ready(function () {    //My JS starts past this point.
             this.sound.pause();
         }
     }
-
-
-    //DSZ JS begins.
 
     //Config
     var config = {
@@ -374,33 +381,36 @@ $(document).ready(function () {    //My JS starts past this point.
     });
 
     //initial values
-    let currentScore= 0;
+    var currentScore= 0;
     
     //validating function
     function validating(){
         if(/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
-            $("#playerAnswer").append("<p> This contains illegal characters. Try again. </p>");
+            console.log("This contains illegal characters. Try again.");
             return;
         }
     }
     //game math function
     function gameMath(){
-        if (thisAnswer.contains(answerForValidating)){ //Feel free to make this more detailed.
+        if (thisAnswer.includes(answerForValidating)){ //Feel free to make this more detailed.
             addtoScore();
         }else {
             subfromScore();
         }
-        $("#current-total").append("The current score is" + currentScore);
+        $("#current-total").append(currentScore);
     }
 
     function addtoScore(){
-        thisValue + currentScore;
-        console.log(currentScore);
+        currentScore+=thisQuestion.value;
+        console.log("This was the value of the question " + thisQuestion.value)
+        console.log("This is the current score" + currentScore);
     }
 
     function subfromScore(){
-        currentScore - thisValue;
-        console.log(currentScore);
+        currentScore-=thisQuestion.value;
+        console.log("This was the value of the question " + thisQuestion.value);
+        console.log("This is the current score" + currentScore);
+        resolveSubmission();
     }
 
 

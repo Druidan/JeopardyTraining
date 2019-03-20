@@ -427,11 +427,42 @@ $(document).ready(function () {    //My JS starts past this point.
         }
     }
     //game math function
-    function gameMath() {
+    // function gameMath() {
 
-        if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
-            $(".winner").removeClass("buryIt");
-            currentScore += thisValue.value();
+    //     if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
+
+    //         currentScore += thisValue;
+    //         playerAnswerCorrect = true;
+    //         console.log("This was the value of the question " + thisValue);
+    //         console.log("This is the current score" + currentScore);
+    //         resolveSubmission();
+    //     } else {
+    //         playerAnswerCorrect = false;
+    //         resolveSubmission();
+    //     }
+    //     $("#current-total").append(currentScore);
+    // }
+
+    function gameMath() {
+        let validatedPlayerAnswer;
+        let validatedTrueAnswer;
+        validatePlayerAnswer();
+        function validatePlayerAnswer(){
+            paLowerCaseTrimmed = answerForValidating.trim().toLowerCase();
+            paPuctuationless = paLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+            paPrepositionless = paPuctuationless.replace(/(?:(the|a|an))/g,"");
+            validatedPlayerAnswer = paPrepositionless;
+        }
+        validateTrueAnswer();
+        function validateTrueAnswer(){
+            taLowerCaseTrimmed = thisAnswer.trim().toLowerCase();
+            taPuctuationless = taLowerCaseTrimmed.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+            taPrepositionless = taPuctuationless.replace(/(?:(the|a|an))/g,"");
+            validatedTrueAnswer = taPrepositionless;
+        }
+        if (validatedTrueAnswer.includes(validatedPlayerAnswer) || validatedPlayerAnswer.includes(validatedTrueAnswer)) { 
+            $(".winner").removeClass("buryIt"); 
+            currentScore += newValue;
             playerAnswerCorrect = true;
             console.log("This was the value of the question " + thisAnswer);
             console.log("This is the current score" + currentScore);
@@ -442,8 +473,6 @@ $(document).ready(function () {    //My JS starts past this point.
         }
         $("#current-total").append(currentScore);
     }
-
-
 
     //All JS Ends beyond this point.
 

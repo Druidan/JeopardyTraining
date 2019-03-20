@@ -427,13 +427,13 @@ $(document).ready(function () {    //My JS starts past this point.
 
 
     //push the first name and the high score of the highest jeopardy scorer so far.
-    database.ref().set({
-        yourName: yourName,
-        yourScore: yourScore,
-        highName: highName,
-        highScore: highScore,
-    });
-    //update page in real time
+    // database.ref().set({
+    //     yourName: yourName,
+    //     yourScore: yourScore,
+    //     // highName: highName,
+    //     // highScore: highScore,
+    // });
+    // //update page in real time
     database.ref().on("value", function (snapshot) {
 
         //if theres already a high score and player stored
@@ -476,7 +476,7 @@ $(document).ready(function () {    //My JS starts past this point.
             console.log(yourName);
 
             // Alert
-            alert("You are now the best.");
+            console.log("You are now the best.");
 
             // Save the new score to Firebase
             database.ref().set({
@@ -498,7 +498,7 @@ $(document).ready(function () {    //My JS starts past this point.
             $("#highest-total").text(newHighScore);
 
         } else {
-            alert("you didn't beat the last guy");
+            console.log("you didn't beat the last guy");
         }
 
     });

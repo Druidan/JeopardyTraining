@@ -8,7 +8,7 @@ $(document).ready(function () {    //My JS starts past this point.
     endScreen = false;
     playerAnswerCorrect = false;
 
-    //Used Question Arrays
+    //Used Question Arrays - Used to compare incoming randomly selected questions to see if its already been used.
     let used100Questions = [];
     let used200Questions = [];
     let used300Questions = [];
@@ -18,7 +18,7 @@ $(document).ready(function () {    //My JS starts past this point.
     let used800Questions = [];
     let used1000Questions = [];
 
-    //Our Question Object
+    //Our Question Object - all accepted random questions will be added here.
     const currentQuestions = {
         100: {},
         200: {},
@@ -33,24 +33,25 @@ $(document).ready(function () {    //My JS starts past this point.
     let playerName; //This variable is used to store the current player's name. 
     let thisQsId; //This variable is used to hold the currently selected question's Id.
     let thisAnswer; //This variable is used to hold the correct answer to the current question, raw before validation.
-    let thisValue;
+    let thisValue; //This variable is used to hold the value of the currently selected question.
     let answerForValidating; //This variable holds the player's raw answer input, before any validation.
     let currentQurl; //This variable is used to store the url that will be used for the current selected question.
     let rowInterval = 1; //This variable is used when constructing the question rows on game start.
 
     //JService API Query
-    let queryInterval = 1;
-    let offsetInterval = 0;
-    let targetArray = []
+    let queryInterval = 1; //Used to increment the API search for dollar value.
+    let offsetInterval = 0; //Used to determine the offset of the search results in the event that all of the returned questions have been used.
+    let targetArray = [] //This blank array is used to switch between the various used question arrays.
 
-    grabQuestions();
+    grabQuestions(); //This calls initial question API search when the webpage is opened.
+
     //API Functions
-    function grabQuestions() {
-        gameLoading = true;
-        let qValue = queryInterval * 100;
+    function grabQuestions() { //This function grabs questions from JService.
+        gameLoading = true; //Since the process is asynchronous, we don't want people clicking additional buttons until the search is done, so at the start of the function we say that the program is loading, which we use in the click events below.
+        let qValue = queryInterval * 100; //We use the query interval to determine the value we are targetting with our search.
         //Determine which used question array is being targeted for each go through.
         switch (qValue) {
-            case 100:
+            case 100: //In case qValue = 100, the target array is the used 100 value question array. This patter repeats all the way down. 
                 targetArray = used100Questions;
                 break;
             case 200:
@@ -68,7 +69,7 @@ $(document).ready(function () {    //My JS starts past this point.
             case 600:
                 targetArray = used600Questions;
                 break;
-            case 800:
+            case 800: // We skip 7-700 and 9-900 throughout the project because there are no jeopardy questions with those value amounts.
                 targetArray = used800Questions;
                 break;
             case 1000:
@@ -77,29 +78,28 @@ $(document).ready(function () {    //My JS starts past this point.
             default:
                 break;
         }
-        if (targetArray === 96) {//Determine the offset for the jservice search query.
-            offsetInterval++
+        if (targetArray === 96) {//Determine the offset for the jservice search query. We use 96 because it is the largest searchable mutliple of 6 via the JService API.
+            offsetInterval++ //Increase the offset by one.
+            targetArray = []; //Empty the target array so that new 
         };
-        const offset = offsetInterval * 96;
+        const offset = offsetInterval * 96; //The offset is determined as a multiple of 96.
         const queryURL = "http://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offset; //Create the Query URL to pull from jService.
-        $.get(queryURL, function (response) {
-            let qsGrabbed = false;
-            for (let j = 1; j <= 6; j++) {
-                let randomQ;
-                randomSelectQ();
-                function randomSelectQ() {
-                    randomQ = response[Math.floor(Math.random() * 100)];
-                    targetId = randomQ.id;
-                    if (targetArray.includes(targetId)) {
-                        // console.log("we got one! - " + targetId);
-                        randomSelectQ();
+        $.get(queryURL, function (response) { //Start the ajax Get call using the constructed URL.
+            for (let j = 1; j <= 6; j++) { //Establish a for loop that will run 6 times, or the number of questions for each value.
+                let randomQ; // Establish a variable in which to store the random number used to find a question.
+                randomSelectQ(); //Call the randomSelectQ function.
+                function randomSelectQ() { //This function will randomly select a question that has not already been used before.
+                    randomQ = response[Math.floor(Math.random() * 96)]; //Select a random question from the search response and store it in RandomQ.
+                    targetId = randomQ.id; //Grab the randomly selected question's Id.
+                    if (targetArray.includes(targetId)) { //If the array of used questions' ids contains the id of the randomly selected question, then we have already used the question...
+                        randomSelectQ(); //...and so we call the random select function again to select a new question. Because the function calls itself until it is successful, we will always end up with unused questions eventually.
                     } else {
-                        return randomQ
+                        return randomQ //If the used q array doesn't include the question id, used the selected question.
                     }
                 }
-                qObjName = "val" + qValue + "Num" + j;
-                qCheck = currentQuestions[qValue].qObjName
-                if(qCheck === undefined || qCheck === undefined){
+                qObjName = "val" + qValue + "Num" + j; //Construct the unique object name for this question - val (value) qValue (numerical value of the question) Num (number) j (1-6), So, the first one would be val100Num1 - The value 100 question number 1.
+                qCheck = currentQuestions[qValue].qObjName //Establish the location of where the question would go in the currentQuestions object.
+                if(qCheck === undefined || qCheck === undefined){ //Check to see if that location already has a value in it (an existing question)
                     tempQ = {};
                     tempQ[qObjName] = {
                         id: randomQ.id,
@@ -189,28 +189,7 @@ $(document).ready(function () {    //My JS starts past this point.
             gameFrame.append(gameRow);
             for (let i = 1; i <= 6; ++i) {
                 const questionBucket = $("<td>");
-                // questionFrame = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-                // questionFrame.setAttribute('id', "squareExample");
-                // questionBucket.innerHTML = '';
                 questionBucket.html("<svg xmlns='http://www.w3.org/2000/svg' id='squareExample'><symbol id='gameSpace' class='gameSpace' x='0px' y='0px'><rect x='2.5' y='2.5' class='st0' width='100%' height='70px' fill='navy' stroke='black' stroke-width='5px'/></symbol></svg>");
-                // const questionUse = $('<svg xmlns="http://www.w3.org/2000/svg" id="squareExample"><symbol id="gameSpace" class="gameSpace x="0px" y="0px">
-                // <rect x="2.5" y="2.5" class="st0" width="195px" height="95px" fill="navy" stroke="black" stroke-width="5px"/></symbol></svg>'
-                // );
-                // questionUse = document.createElementNS('http://www.w3.org/2000/svg', 'symbol');
-                // questionUse.setAttribute('id', "gameSpace");
-                // questionUse.setAttribute('class', "gameSpace");
-                // questionUse.setAttribute('y', '0px');
-                // questionUse.setAttribute('x', '0px');
-                // questionFrame.appendChild(questionUse);
-                // questionobj = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-                // questionobj.setAttribute('id', "gameSpace");
-                // questionobj.setAttribute('class', "st0");
-                // questionobj.setAttribute('width', "195px");
-                // questionobj.setAttribute('height', "95px");
-                // questionobj.setAttribute('style', "fill:navy; stroke:black; stroke-width:5px");
-                // questionobj.setAttribute('y', '2.5');
-                // questionobj.setAttribute('x', '2.5');
-                // questionUse.appendChild(questionobj);
                 const questionText = $("<p>");
                 questionId = "val" + questionValue + "Num" + i;
                 oneDeep = currentQuestions[questionValue]
@@ -291,6 +270,7 @@ $(document).ready(function () {    //My JS starts past this point.
             $(".gameboard").addClass("buryIt");
             $(".questionBoard").removeClass("buryIt");
             grabPics();
+            delete thisQuestion;
         }
     })
 

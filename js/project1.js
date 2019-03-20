@@ -425,15 +425,6 @@ $(document).ready(function () {    //My JS starts past this point.
     var highName = yourName;
     var highScore = yourScore;
 
-
-    //push the first name and the high score of the highest jeopardy scorer so far.
-    // database.ref().set({
-    //     yourName: yourName,
-    //     yourScore: yourScore,
-    //     // highName: highName,
-    //     // highScore: highScore,
-    // });
-    // //update page in real time
     database.ref().on("value", function (snapshot) {
 
         //if theres already a high score and player stored

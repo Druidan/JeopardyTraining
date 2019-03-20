@@ -99,7 +99,7 @@ $(document).ready(function () {    //My JS starts past this point.
                 }
                 qObjName = "val" + qValue + "Num" + j; //Construct the unique object name for this question - val (value) qValue (numerical value of the question) Num (number) j (1-6), So, the first one would be val100Num1 - The value 100 question number 1.
                 qCheck = currentQuestions[qValue].qObjName //Establish the location of where the question would go in the currentQuestions object.
-                if(qCheck === undefined || qCheck === undefined){ //Check to see if that location already has a value in it (an existing question)
+                if (qCheck === undefined || qCheck === undefined) { //Check to see if that location already has a value in it (an existing question)
                     tempQ = {};
                     tempQ[qObjName] = {
                         id: randomQ.id,
@@ -204,11 +204,11 @@ $(document).ready(function () {    //My JS starts past this point.
     }
 
     function resolveSubmission() {
-        if(playerAnswerCorrect === true){
+        if (playerAnswerCorrect === true) {
             $(".gameboard").removeClass("buryIt");
             $(".questionBoard").addClass("buryIt");
         } else {
-            if(playerAnswerCorrect === false){
+            if (playerAnswerCorrect === false) {
                 gameOn = false;
                 endScreen = true;
                 //remove buryIt class from end screen
@@ -224,7 +224,7 @@ $(document).ready(function () {    //My JS starts past this point.
             fillQBtns();
             playerName = $(".name-input").val();
             console.log(playerName)
-           // $("#current-total").text(0);
+            // $("#current-total").text(0);
             $("#nameEntry").addClass("buryIt");
             startScreenUp = false;
             $(".gameboard").removeClass("buryIt");
@@ -296,7 +296,7 @@ $(document).ready(function () {    //My JS starts past this point.
             endScreen = false;
             grabQuestions();
             fillQBtns();
-           // $("#current-total").text(0);
+            // $("#current-total").text(0);
             $(".gameboard").removeClass("buryIt");
         } else { console.log("Something's not right!") }
     })
@@ -327,7 +327,7 @@ $(document).ready(function () {    //My JS starts past this point.
     firebase.initializeApp(config);
 
     //assign the reference to the database to dataref
-    var dataRef= firebase.database();
+    var dataRef = firebase.database();
 
     //initial values
     var yourName = "";
@@ -371,28 +371,29 @@ $(document).ready(function () {    //My JS starts past this point.
     });
 
     //initial values
-    var currentScore= 0;
-    
+    var currentScore = 0;
+
     //validating function
-    function validating(){
-        if(/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
+    function validating() {
+        if (/^[a-zA-Z0-9- ]*$/.test(answerForValidating) == false) {
             console.log("This contains illegal characters. Try again.");
             return;
         }
     }
     //game math function
-    function gameMath(){
+    function gameMath() {
 
-        if (thisQuestion.answer.trim().toLowerCase().includes(answerForValidating)){ //Feel free to make this more detailed.
-            currentScore+=thisQuestion.value;
+        if (thisAnswer.trim().toLowerCase().includes(answerForValidating)) { //Feel free to make this more detailed.
+            currentScore += thisValue;
+            playerAnswerCorrect === true;
             console.log("This was the value of the question " + thisQuestion.answer);
             console.log("This is the current score" + currentScore);
-        }else {
-            currentScore-=thisQuestion.value;
-            console.log("This was the value of the question " + thisQuestion.value);
-            console.log("This was the question's answer " + thisQuestion.answer);
-            console.log("This was your answer" + answerforValidating);
-            console.log("This is the current score" + currentScore);
+        } else {
+            playerAnswerCorrect === false;
+            //console.log("This was the value of the question " + thisQuestion.value);
+            //console.log("This was the question's answer " + thisQuestion.answer);
+            //console.log("This was your answer" + answerforValidating);
+
             resolveSubmission();
         }
         $("#current-total").append(currentScore);

@@ -1,0 +1,163 @@
+.table td, .table th{
+    padding: 0;
+    width: 200px;
+    margin: 0;
+}
+
+.buryIt{
+    display: none !important;
+}
+
+.smallerText{
+    font-size: 2.8vw !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.nonAmount {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: goldenrod;
+    margin: auto;
+}
+
+.askingQuestion {
+    font-family: 'Crimson Text', serif;
+    font-size: 20px;
+    color: white;
+    margin: auto;
+}
+
+.answerArea {
+    padding-top: 40px;
+}
+
+.answeredQ{
+    -webkit-filter: grayscale(100%); /* Safari */
+    filter: grayscale(100%);
+}
+
+.table-borderless td, .table-borderless th {
+    border: 0;
+}
+
+#logo {
+    margin: 20px auto;
+    height: 72px
+}
+
+.amount {
+    z-index: 1;
+    position: relative;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: goldenrod;
+    margin: auto;
+    padding-top:10px;
+}
+
+.jeapordyInnerText {
+    z-index: 1;
+    position: relative;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: goldenrod;
+    margin: auto;
+    padding-top:10px;
+}
+
+#nameEntry #qContain {
+    z-index: 2;
+    position: relative;
+    margin: 0 auto;
+}
+
+#name-panel #qPanel {
+    z-index: 3;
+    position: relative;
+    margin: auto;
+}
+
+.gameboard{
+    justify-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.gameSpace {
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+}
+
+.questionBucket {
+    width: 200px;
+    position: relative;
+    background-color: navy;
+    border: solid 5px black !important;
+}
+
+.nameBoard {
+    display: block;
+    margin: 0 auto;
+    width: 690px;
+    height: 200px;
+}
+
+
+.scoreBoard {
+    width: 100%;
+    position: relative;
+}
+
+.questionBoardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1%;
+}
+
+.questionBoard{
+    text-align: center;
+}
+
+.categoryImg {
+    width: 100%;
+    margin: auto;
+}
+
+.displayCategory{
+    text-align: center;
+    justify-self: center;
+    margin: auto;
+}
+
+#here {
+    z-index: -1;
+    position: absolute;
+}
+
+#squareExample {
+    display: none;
+}
+
+.amount:hover {
+    cursor:pointer;
+}
+
+/* .currentQText { 
+    background-color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color: #0033cc;
+    margin: auto;
+  } */
+  

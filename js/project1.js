@@ -391,7 +391,7 @@ $(document).ready(function () {    //My JS starts past this point.
             taPrepositionless = taPuctuationless.replace(/(?:(the|a|an))/g, "");
             validatedTrueAnswer = taPrepositionless;
         }
-        if (validatedTrueAnswer.includes(validatedPlayerAnswer) || validatedPlayerAnswer.includes(validatedTrueAnswer)) {
+        if (validatedTrueAnswer === validatedPlayerAnswer) {
             $(".winner").removeClass("buryIt");
             currentScore += thisValue[thisQsId].value;
             playerAnswerCorrect = true;

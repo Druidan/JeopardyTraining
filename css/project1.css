@@ -21,7 +21,6 @@
     font-size: 2.8vw !important;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-wrap: break-word;
 }
 
 .nonAmount {

@@ -102,7 +102,7 @@ $(document).ready(function () {    //My JS starts past this point.
             targetArray = []; //Empty the target array so that new 
         };
         const offset = offsetInterval * 96; //The offset is determined as a multiple of 96.
-        const queryURL = "http://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offset; //Create the Query URL to pull from jService.
+        const queryURL = "https://jservice.io/api/clues/?value=" + qValue + "&&offset=" + offset; //Create the Query URL to pull from jService.
         $.get(queryURL, function (response) { //Start the ajax Get call using the constructed URL.
             for (let j = 1; j <= 6; j++) { //Establish a for loop that will run 6 times, or the number of questions for each value.
                 let randomQ; // Establish a variable in which to store the random number used to find a question.
@@ -255,6 +255,11 @@ $(document).ready(function () {    //My JS starts past this point.
 
     $(".submit-name").on("click", function (event) {
         event.preventDefault();
+        console.log(gameOn)
+        console.log(startScreenUp)
+        console.log(qScreenUp)
+        console.log(gameLoading)
+        console.log(endScreen)
         if (gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false) {
             gameOn = true;
             fillQBtns();

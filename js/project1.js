@@ -44,22 +44,22 @@ $(document).ready(function () {    //My JS starts past this point.
     let offsetInterval = 0; //Used to determine the offset of the search results in the event that all of the returned questions have been used.
     let targetArray = [] //This blank array is used to switch between the various used question arrays.
 
-    //Users cannot type special characters
-    $(".name-input").keypress(function (event) {
-        var inputValue = event.which;
-        // allow letters and whitespaces only.
-        if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
-            event.preventDefault();
-        }
-    });
-    //Users cannot type special characters
-    $(".playerAnswer").keypress(function (event) {
-        var inputValue = event.which;
-        // allow letters and whitespaces only.
-        if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
-            event.preventDefault();
-        }
-    });
+    // //Users cannot type special characters
+    // $(".name-input").keypress(function (event) {
+    //     var inputValue = event.which;
+    //     // allow letters and whitespaces only.
+    //     if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+    //         event.preventDefault();
+    //     }
+    // });
+    // //Users cannot type special characters
+    // $(".playerAnswer").keypress(function (event) {
+    //     var inputValue = event.which;
+    //     // allow letters and whitespaces only.
+    //     if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+    //         event.preventDefault();
+    //     }
+    // });
 
 
     grabQuestions(); //This calls initial question API search when the webpage is opened.
@@ -142,7 +142,6 @@ $(document).ready(function () {    //My JS starts past this point.
                 grabQuestions();
             } else {
                 gameLoading = false;
-                console.log(currentQuestions);
             }
         });
 
@@ -255,11 +254,6 @@ $(document).ready(function () {    //My JS starts past this point.
 
     $(".submit-name").on("click", function (event) {
         event.preventDefault();
-        console.log(gameOn)
-        console.log(startScreenUp)
-        console.log(qScreenUp)
-        console.log(gameLoading)
-        console.log(endScreen)
         if (gameOn === false && startScreenUp === true && qScreenUp === false && gameLoading === false && endScreen === false) {
             gameOn = true;
             fillQBtns();
